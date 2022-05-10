@@ -10,12 +10,14 @@ import { Page } from '../../components/page';
 import defaultStore from '../../stores/defaultStore';
 
 const HomePage: React.FC = observer(() => {
-  const { houses, error, pagesCount, getHouses, setFavorite } = defaultStore;
+  const { houses, error, pagesCount, getHouses, resetHouses, setFavorite } = defaultStore;
 
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     getHouses({ page });
+
+    () => resetHouses();
   }, [page]);
 
   const isLoading = !houses && !error;

@@ -14,6 +14,10 @@ class DefaultStore {
   error: string | null = null;
 
   getHouses = async (options: ApiGetHousesOptions): Promise<void> => {
+    if (this.houses || this.error) {
+      this.resetHouses();
+    }
+
     try {
       const response = await api.getHouses(options);
 
@@ -28,9 +32,14 @@ class DefaultStore {
     } catch (error) {
       runInAction(() => {
         this.error = 'error';
-        console.error(error)
+        console.error(error);
       });
     }
+  };
+
+  resetHouses = () => {
+    this.houses = null;
+    this.error = null;
   };
 
   setFavorite = (favorite: StoreHousesFavorite): void => {
@@ -47,6 +56,7 @@ class DefaultStore {
       favorites: observable,
 
       getHouses: action,
+      resetHouses: action,
       setFavorite: action,
 
       isHydrated: computed,
